@@ -3,3 +3,5 @@ The MustDo App prioritizes tasks you must complete daily. It will let you schedu
 Tech Stack:
 Front end: React
 Back end: Django
+
+To run the project, check the respective README's
