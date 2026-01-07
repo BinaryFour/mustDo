@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## ToDo
+
+Django installation:
+When creating a production site, install Apache w/ mod_wsgi
+[Django DB Install](https://docs.djangoproject.com/en/6.0/topics/install/#database-installation)
+
 ## Getting Started
 
 First, run the development server:
