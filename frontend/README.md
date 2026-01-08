@@ -1,24 +1,22 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## ToDo
-
-Django installation:
-When creating a production site, install Apache w/ mod_wsgi
-[Django DB Install](https://docs.djangoproject.com/en/6.0/topics/install/#database-installation)
-
 ## Getting Started
 
-First, run the development server:
+This will use the docker-compose.yml to build the image and spin up the container headlessly. Omit the `--build` tag if you don't need to build the image/already have the image.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+`docker compose -d --build`
+
+or
+
+`docker compose up -d`
+
+Alternatively, to only build the docker image for the frontend:
+
+`docker build -t frontend .`
+
+And then spin up the container:
+
+`docker run -p 3000:3000 frontend`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
