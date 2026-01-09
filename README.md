@@ -5,3 +5,5 @@ Front end: React
 Back end: Django
 
 To run the project, check the respective README's
+
+TODO: write a script that spins up frontend/backend containers
