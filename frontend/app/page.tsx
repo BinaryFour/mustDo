@@ -1,38 +1,6 @@
-export default function Page() {
-  // PLACEHOLDER COMPONENT
-  const TaskContainer = () => {
-    return (
-      <div
-        className="task-container"
-        style={{
-          display: "flex",
-          flex: 6,
-          justifyContent: "space-evenly",
-          alignItems: "center",
-        }}
-      >
-        <div>
-          <ul>Task 1</ul>
-          <ul>Description</ul>
-          <ul>Due Date</ul>
-          <ul>Completed Button</ul>
-        </div>
-        <div>
-          <ul>Task 2</ul>
-          <ul>Description</ul>
-          <ul>Due Date</ul>
-          <ul>Completed Button</ul>
-        </div>
-        <div>
-          <ul>Task 3</ul>
-          <ul>Description</ul>
-          <ul>Due Date</ul>
-          <ul>Completed Button</ul>
-        </div>
-      </div>
-    );
-  };
+import TaskCard from "./components/taskCard";
 
+export default function Page() {
   return (
     <div
       className="main-container"
@@ -66,9 +34,19 @@ export default function Page() {
           }}
         >
           <h1 style={{ flex: 1 }}>Must Do</h1>
-          <TaskContainer />
+          <div
+            className="task-container"
+            style={{
+              display: "flex",
+              flex: 6,
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <TaskCard />
+          </div>
         </div>
-        <div
+        {/* <div
           className="priority2"
           style={{
             display: "flex",
@@ -78,7 +56,17 @@ export default function Page() {
           }}
         >
           <h1 style={{ flex: 1 }}>Should Do</h1>
-          <TaskContainer />
+          <div
+            className="task-container"
+            style={{
+              display: "flex",
+              flex: 6,
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <TaskCard />
+          </div>
         </div>
         <div
           className="priority3"
@@ -90,8 +78,18 @@ export default function Page() {
           }}
         >
           <h1 style={{ flex: 1 }}>Can Do</h1>
-          <TaskContainer />
-        </div>
+          <div
+            className="task-container"
+            style={{
+              display: "flex",
+              flex: 6,
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <TaskCard />
+          </div>
+        </div> */}
       </div>
     </div>
   );
