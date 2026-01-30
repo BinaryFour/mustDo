@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 This will use the docker-compose.yml to build the image and spin up the container headlessly. Omit the `--build` tag if you don't need to build the image/already have the image.
 
-`docker compose -d --build`
+`docker compose up -d --build`
 
 or
 

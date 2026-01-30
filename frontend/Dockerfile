@@ -4,11 +4,11 @@ FROM node:20-bullseye-slim
 # Set the working directory inside the container
 WORKDIR /app
  
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package.json and yarn-lock
+COPY package*.json yarn.lock ./
  
 # Install dependencies
-RUN yarn install
+RUN yarn
  
 # Copy the rest of your application files
 COPY . .

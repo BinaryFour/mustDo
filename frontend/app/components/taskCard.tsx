@@ -5,10 +5,8 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Input from "@mui/material/Input";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-
-export default function TaskCard() {
-
+import { colors } from "../constants/colors";
+const TaskCard = () => {
   //TODO: Add draggable component
   //TODO: Add deadline/date picker component
   //TODO: Add check list capability to description.  Need a design
@@ -18,9 +16,7 @@ export default function TaskCard() {
   const card = (
     <>
       <CardContent>
-        <Typography gutterBottom sx={{ color: "text.primary", fontSize: 14 }}>
-          <Input placeholder="Title" inputProps={ariaLabel} fullWidth />
-        </Typography>
+        <Input placeholder="Title" inputProps={ariaLabel} fullWidth />
         <TextField
           id="standard-multiline-static"
           fullWidth
@@ -37,7 +33,10 @@ export default function TaskCard() {
   );
   return (
     <Box sx={{ minWidth: 275 }}>
-      <Card variant="outlined">{card}</Card>
+      <Card sx={{ backgroundColor: colors.brown }} variant="outlined">
+        {card}
+      </Card>
     </Box>
   );
-}
+};
+export default TaskCard;

@@ -1,6 +1,19 @@
+import Button from "@mui/material/Button";
 import TaskCard from "./components/taskCard";
+import { colors } from "./constants/colors";
 
-export default function Page() {
+type Task = {
+  title: string;
+  description: string;
+};
+
+const Page = () => {
+  const tasks: Task[] = [
+    { title: "Task 1", description: "Description for Task 1" },
+    { title: "Task 2", description: "Description for Task 2" },
+    { title: "Task 3", description: "Description for Task 3" },
+  ];
+
   return (
     <div
       className="main-container"
@@ -11,86 +24,58 @@ export default function Page() {
         height: "98vh",
       }}
     >
-      <div className="header" style={{ backgroundColor: "gray" }}>
+      <header className="header" style={{ backgroundColor: "gray" }}>
         <h1>Must Do: The App that keeps up with your life</h1>
-      </div>
-      <div
+      </header>
+      <main
         className="dashboard-container"
         style={{
           display: "flex",
           flex: 1,
-          flexDirection: "column",
+          flexDirection: "row",
           backgroundColor: "gainsboro",
         }}
       >
-        <h1>Today's Tasks</h1>
         <div
-          className="priority1"
+          className="in-progress-column"
           style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            backgroundColor: "lightcoral",
+            flex: 2,
+            backgroundColor: colors.inProgressRed,
+            padding: "1rem",
           }}
         >
-          <h1 style={{ flex: 1 }}>Must Do</h1>
           <div
-            className="task-container"
+            className="column-header"
             style={{
               display: "flex",
-              flex: 6,
-              justifyContent: "space-evenly",
-              alignItems: "center",
+              justifyContent: "flex-start",
+              paddingBlockEnd: "1rem",
             }}
           >
-            <TaskCard />
+            <Button variant="contained">+ New Task</Button>
           </div>
-        </div>
-        {/* <div
-          className="priority2"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            backgroundColor: "lightyellow",
-          }}
-        >
-          <h1 style={{ flex: 1 }}>Should Do</h1>
-          <div
-            className="task-container"
-            style={{
-              display: "flex",
-              flex: 6,
-              justifyContent: "space-evenly",
-              alignItems: "center",
-            }}
-          >
-            <TaskCard />
-          </div>
+          <TaskCard />
+          <TaskCard />
+          <TaskCard />
         </div>
         <div
-          className="priority3"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            backgroundColor: "lightblue",
-          }}
+          className="done-column"
+          style={{ flex: 1, backgroundColor: colors.doneBlue, padding: "1rem" }}
         >
-          <h1 style={{ flex: 1 }}>Can Do</h1>
           <div
-            className="task-container"
+            className="column-header"
             style={{
               display: "flex",
-              flex: 6,
-              justifyContent: "space-evenly",
-              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: colors.doneBlue,
             }}
           >
-            <TaskCard />
+            <h2>Done!</h2>
           </div>
-        </div> */}
-      </div>
+        </div>
+      </main>
     </div>
   );
-}
+};
+
+export default Page;
