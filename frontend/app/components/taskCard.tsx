@@ -5,12 +5,18 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Input from "@mui/material/Input";
 import TextField from "@mui/material/TextField";
 import { colors } from "../constants/colors";
 import { useState } from "react";
 import CardActionArea from "@mui/material/CardActionArea";
 import Typography from "@mui/material/Typography";
+import CardHeader from "@mui/material/CardHeader";
+import IconButton from "@mui/material/IconButton";
+import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
+import FormGroup from "@mui/material/FormGroup";
+import Checkbox from "@mui/material/Checkbox";
+import AddIcon from "@mui/icons-material/Add";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 interface ChecklistItem {
   text: string;
@@ -25,9 +31,14 @@ interface TaskCardState {
   deadline: Date | null;
 }
 
+type Inputs = {
+  title: string;
+  description: string;
+};
+
 const emptyForm: TaskCardState = {
   isExpanded: false,
-  title: "",
+  title: "New Title",
   description: "",
   checklist: [],
   deadline: null,
@@ -53,18 +64,57 @@ const TaskCard = () => {
     3.  Put the expanded view in a modal so that the task takes up the entire screen when expanded
     4.  Add form capabilities w/ react-hook-form in order to input data
   */
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
   const [form, setForm] = useState<TaskCardState>(emptyForm);
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    setForm({ ...form, title: data.title });
+    setIsTitleEditing(false);
+  };
+
+  const CheckboxWithX = () => {
+    return (
+      <div
+        className="list-item-wrapper"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div
+          className="checkbox-label-wrapper"
+          style={{ display: "flex", flexDirection: "row" }}
+        >
+          <Checkbox />
+          <TextField
+            size="small"
+            placeholder="Checklist item"
+            variant="standard"
+          />
+        </div>
+        <IconButton size="small">
+          <AddIcon />
+        </IconButton>
+      </div>
+    );
+  };
 
   const minimizedCard = (
     <>
-      <CardActionArea>
-        <CardContent sx={{ minBlockSize: 150 }}>
+      <CardActionArea onClick={() => setIsExpanded(true)}>
+        <CardContent sx={{ display: "flex", gap: 1, minBlockSize: 150 }}>
           <Typography variant="h4" gutterBottom>
-            Task Title
+            {form.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            This is a sample task description.
+            {form.description}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -76,19 +126,48 @@ const TaskCard = () => {
 
   const expandedCard = (
     <>
+      <CardHeader
+        title={
+          <div
+            className="title-wrapper"
+            style={{ display: "flex", blockSize: 40, alignItems: "center" }}
+          >
+            {isTitleEditing ? (
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <TextField
+                  size="small"
+                  fullWidth
+                  autoFocus
+                  {...register("title")}
+                />
+              </form>
+            ) : (
+              form.title
+            )}
+          </div>
+        }
+        action={
+          <IconButton onClick={() => setIsExpanded(false)}>
+            <CloseFullscreenIcon />
+          </IconButton>
+        }
+        onDoubleClick={() => setIsTitleEditing(true)}
+      />
       <CardContent>
-        <Input placeholder="Title" fullWidth />
         <TextField
           id="standard-multiline-static"
           fullWidth
           placeholder="Description"
           multiline
-          rows={4}
+          rows={2}
           variant="standard"
         />
+        <FormGroup>
+          <CheckboxWithX />
+        </FormGroup>
       </CardContent>
-      <CardActions>
-        <Button size="small">Done!</Button>
+      <CardActions sx={{ justifyContent: "center" }}>
+        <Button fullWidth>Done!</Button>
       </CardActions>
     </>
   );
@@ -96,7 +175,7 @@ const TaskCard = () => {
   return (
     <>
       {isExpanded ? (
-        <Box sx={{ maxInlineSize: 275 }}>
+        <Box sx={{ maxInlineSize: 500 }}>
           <Card variant="outlined">{expandedCard}</Card>
         </Box>
       ) : (
