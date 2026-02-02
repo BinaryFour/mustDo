@@ -55,8 +55,6 @@ const Page = () => {
             <Button variant="contained">+ New Task</Button>
           </div>
           <TaskCard />
-          <TaskCard />
-          <TaskCard />
         </div>
         <div
           className="done-column"
