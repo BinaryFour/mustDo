@@ -4,6 +4,8 @@
 
 The MustDo App prioritizes tasks you must complete daily. It will let you schedule recurrent tasks and get them in front of you so you don't have to spend the cycles thinking about what you need to do!
 
+**This application is still a WIP!  Expect bugs and experimentation!**
+
 ## Tech Stack:
 
 Front end: **React | Next.js**  
@@ -25,3 +27,4 @@ Here are instructions on how to run the project from the root directory:
    `./docker.sh [up|down]`
 
 You can also check the respective README's for instructions on running those containers standalone
+
