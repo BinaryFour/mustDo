@@ -17,14 +17,15 @@ import FormGroup from "@mui/material/FormGroup";
 import Checkbox from "@mui/material/Checkbox";
 import AddIcon from "@mui/icons-material/Add";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { Dialog } from "@mui/material";
+import TaskDialog from "./dialog";
 
 interface ChecklistItem {
   text: string;
   isCompleted: boolean;
 }
 
-interface TaskCardState {
-  isExpanded: boolean;
+interface TaskCardContent {
   title: string;
   description: string;
   checklist: ChecklistItem[];
@@ -36,8 +37,7 @@ type Inputs = {
   description: string;
 };
 
-const emptyForm: TaskCardState = {
-  isExpanded: false,
+const emptyForm: TaskCardContent = {
   title: "New Title",
   description: "",
   checklist: [],
@@ -71,7 +71,7 @@ const TaskCard = () => {
   } = useForm<Inputs>();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
-  const [form, setForm] = useState<TaskCardState>(emptyForm);
+  const [form, setForm] = useState<TaskCardContent>(emptyForm);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setForm({ ...form, title: data.title });
@@ -126,58 +126,68 @@ const TaskCard = () => {
 
   const expandedCard = (
     <>
-      <CardHeader
-        title={
-          <div
-            className="title-wrapper"
-            style={{ display: "flex", blockSize: 40, alignItems: "center" }}
-          >
-            {isTitleEditing ? (
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <TextField
-                  size="small"
-                  fullWidth
-                  autoFocus
-                  {...register("title")}
-                />
-              </form>
-            ) : (
-              form.title
-            )}
-          </div>
-        }
-        action={
-          <IconButton onClick={() => setIsExpanded(false)}>
-            <CloseFullscreenIcon />
-          </IconButton>
-        }
-        onDoubleClick={() => setIsTitleEditing(true)}
-      />
-      <CardContent>
-        <TextField
-          id="standard-multiline-static"
-          fullWidth
-          placeholder="Description"
-          multiline
-          rows={2}
-          variant="standard"
-        />
-        <FormGroup>
-          <CheckboxWithX />
-        </FormGroup>
-      </CardContent>
-      <CardActions sx={{ justifyContent: "center" }}>
-        <Button fullWidth>Done!</Button>
-      </CardActions>
+      <div className="justify-between">
+        <div>
+          <CardHeader
+            slotProps={{
+              action: {
+                sx: { margin: 0 },
+              },
+            }}
+            title={
+              <div className="text-center min-h-10">
+                {isTitleEditing ? (
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <TextField
+                      autoFocus
+                      size="small"
+                      fullWidth
+                      {...register("title")}
+                    />
+                  </form>
+                ) : (
+                  <div className="hover:bg-slate-100 active:bg-slate-200 min-h-10 text-2xl/10 cursor-pointer">
+                    {form.title}
+                  </div>
+                )}
+              </div>
+            }
+            action={
+              <IconButton onClick={() => setIsExpanded(false)}>
+                <CloseFullscreenIcon />
+              </IconButton>
+            }
+            onDoubleClick={() => setIsTitleEditing(true)}
+          />
+          <CardContent>
+            <TextField
+              id="standard-multiline-static"
+              fullWidth
+              placeholder="Description"
+              multiline
+              rows={4}
+              variant="standard"
+            />
+            <FormGroup>
+              <CheckboxWithX />
+            </FormGroup>
+          </CardContent>
+        </div>
+        <CardActions sx={{ justifyContent: "center" }}>
+          <Button fullWidth>Done!</Button>
+        </CardActions>
+      </div>
     </>
   );
 
   return (
     <>
       {isExpanded ? (
-        <Box sx={{ maxInlineSize: 500 }}>
-          <Card variant="outlined">{expandedCard}</Card>
-        </Box>
+        <TaskDialog
+          open={isExpanded}
+          onClose={() => setIsExpanded(false)}
+          dialogContent={expandedCard}
+        />
       ) : (
         <Box sx={{ maxInlineSize: 300 }}>
           <Card variant="outlined">{minimizedCard}</Card>
