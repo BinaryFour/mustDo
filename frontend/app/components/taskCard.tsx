@@ -78,6 +78,10 @@ const TaskCard = () => {
     setIsTitleEditing(false);
   };
 
+  const onChange: SubmitHandler<Inputs> = (data) => {
+    setForm({ ...form, description: data.description });
+  };
+
   const CheckboxWithX = () => {
     return (
       <div
@@ -109,7 +113,7 @@ const TaskCard = () => {
   const minimizedCard = (
     <>
       <CardActionArea onClick={() => setIsExpanded(true)}>
-        <CardContent sx={{ display: "flex", gap: 1, minBlockSize: 150 }}>
+        <CardContent className="flex flex-col gap-1 min-w-4">
           <Typography variant="h4" gutterBottom>
             {form.title}
           </Typography>
@@ -160,14 +164,17 @@ const TaskCard = () => {
             onDoubleClick={() => setIsTitleEditing(true)}
           />
           <CardContent>
-            <TextField
-              id="standard-multiline-static"
-              fullWidth
-              placeholder="Description"
-              multiline
-              rows={4}
-              variant="standard"
-            />
+            <form onChange={handleSubmit(onChange)}>
+              <TextField
+                id="standard-multiline-static"
+                fullWidth
+                placeholder="Description"
+                multiline
+                rows={4}
+                variant="standard"
+                {...register("description")}
+              />
+            </form>
             <FormGroup>
               <CheckboxWithX />
             </FormGroup>
