@@ -17,7 +17,6 @@ import FormGroup from "@mui/material/FormGroup";
 import Checkbox from "@mui/material/Checkbox";
 import AddIcon from "@mui/icons-material/Add";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Dialog } from "@mui/material";
 import TaskDialog from "./dialog";
 
 interface ChecklistItem {
@@ -71,10 +70,12 @@ const TaskCard = () => {
   } = useForm<Inputs>();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
+  const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
   const [form, setForm] = useState<TaskCardContent>(emptyForm);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    setForm({ ...form, title: data.title });
+    const newTitle = data.title ? data.title : "Task Title";
+    setForm({ ...form, title: newTitle });
     setIsTitleEditing(false);
   };
 
@@ -113,25 +114,33 @@ const TaskCard = () => {
   const minimizedCard = (
     <>
       <CardActionArea onClick={() => setIsExpanded(true)}>
-        <CardContent className="flex flex-col gap-1 min-w-4">
+        <CardContent className="flex flex-col gap-1">
           <Typography variant="h4" gutterBottom>
             {form.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {form.description}
-          </Typography>
+          <TextField
+            className="pointer-events-none"
+            id="standard-multiline-static"
+            fullWidth
+            placeholder="Description"
+            multiline
+            rows={4}
+            variant="standard"
+            disabled
+            value={form.description}
+          />
         </CardContent>
       </CardActionArea>
       <CardActions sx={{ justifyContent: "center" }}>
-        <Button fullWidth>Done!</Button>
+        <Button fullWidth>Task Finished!</Button>
       </CardActions>
     </>
   );
 
   const expandedCard = (
     <>
-      <div className="justify-between">
-        <div>
+      <div className="flex flex-col h-full">
+        <div className="flex-1">
           <CardHeader
             slotProps={{
               action: {
@@ -139,13 +148,17 @@ const TaskCard = () => {
               },
             }}
             title={
-              <div className="text-center min-h-10">
+              <div className="text-center min-h-10 border-2 border-solid">
                 {isTitleEditing ? (
-                  <form onSubmit={handleSubmit(onSubmit)}>
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    onBlur={handleSubmit(onSubmit)}
+                  >
                     <TextField
                       autoFocus
                       size="small"
                       fullWidth
+                      placeholder="Task Title"
                       {...register("title")}
                     />
                   </form>
@@ -157,14 +170,20 @@ const TaskCard = () => {
               </div>
             }
             action={
-              <IconButton onClick={() => setIsExpanded(false)}>
+              <IconButton
+                className="border-2 border-solid"
+                onClick={() => setIsExpanded(false)}
+              >
                 <CloseFullscreenIcon />
               </IconButton>
             }
             onDoubleClick={() => setIsTitleEditing(true)}
           />
-          <CardContent>
-            <form onChange={handleSubmit(onChange)}>
+          <CardContent className="flex flex-col gap-6">
+            <form
+              className="border-2 border-solid"
+              onChange={handleSubmit(onChange)}
+            >
               <TextField
                 id="standard-multiline-static"
                 fullWidth
@@ -175,13 +194,13 @@ const TaskCard = () => {
                 {...register("description")}
               />
             </form>
-            <FormGroup>
+            <FormGroup className="border-2 border-solid">
               <CheckboxWithX />
             </FormGroup>
           </CardContent>
         </div>
         <CardActions sx={{ justifyContent: "center" }}>
-          <Button fullWidth>Done!</Button>
+          <Button fullWidth>Task Finished!</Button>
         </CardActions>
       </div>
     </>
@@ -189,17 +208,16 @@ const TaskCard = () => {
 
   return (
     <>
+      <Box>
+        <Card variant="outlined">{minimizedCard}</Card>
+      </Box>
       {isExpanded ? (
         <TaskDialog
           open={isExpanded}
           onClose={() => setIsExpanded(false)}
           dialogContent={expandedCard}
         />
-      ) : (
-        <Box sx={{ maxInlineSize: 300 }}>
-          <Card variant="outlined">{minimizedCard}</Card>
-        </Box>
-      )}
+      ) : null}
     </>
   );
 };

@@ -26,6 +26,6 @@ Here are instructions on how to run the project from the root directory:
 2. Run this command to spin up the app containers:
    `./docker.sh [up|down]`
 
-   If this command errs out, you may need to create a blank `.env` file inside the `frontend` directory!
+3. If this command errs out, you may need to create a blank `.env` file inside the `frontend` directory!
 
-   You can also check the respective README's for instructions on running those containers standalone
+You can also check the respective README's for instructions on running those containers standalone

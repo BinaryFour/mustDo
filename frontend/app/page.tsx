@@ -23,7 +23,9 @@ const Page = () => {
           <div className="flex justify-start">
             <Button variant="contained">+ New Task</Button>
           </div>
-          <div className="task-grid">
+          <div className="grid grid-cols-2 gap-4">
+            <TaskCard />
+            <TaskCard />
             <TaskCard />
           </div>
         </div>

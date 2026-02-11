@@ -17,8 +17,8 @@ const TaskDialog = ({ open, onClose, dialogContent }: TaskDialogProps) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogContent className="bg-amber-600">{dialogContent}</DialogContent>
+    <Dialog fullWidth maxWidth="lg" open={open} onClose={handleClose}>
+      <DialogContent className="bg-amber-200">{dialogContent}</DialogContent>
     </Dialog>
   );
 };
