@@ -1,15 +1,30 @@
 # Must Do 📋💪
 
-## About
+## The Problem
 
-The MustDo App prioritizes tasks you must complete daily. It will let you schedule recurrent tasks and get them in front of you so you don't have to spend the cycles thinking about what you need to do!
+There are so many things that we have to do on a daily basis like work, feeding ourselves, and working on our personal goals. We only have a limited amount of energy and willpower every day, so if they're not properly prioritized and managed, we will not be able to accomplish the things that we want. With so many things to keep track of, it can be difficult to know what task to prioritize when we have multiple deadlines, especially when unexpected events occur and throw everything off balance!
+
+## The Solution
+
+The MustDo App prioritizes your tasks and generates a schedule that you can follow that will keep in mind your energy levels and plot out what tasks need to be done over time. When things go awry and we can't finish the things we need to do, the app will ask to reschedule the task or to archive it until you get time to address it so that your tasks don't fall by the wayside!. Remove the clutter from your mental stack by putting tasks into the app with deadlines and energy levels, so you can tackle each day with the confidence that important things aren't missed, your goals are being worked on, and you're able to celebrate your accomplishments!
+
+## Features
+
+- Three Views to show tasks for Today, the week, and the month so you can stay on track with everything in your life
+- Focused view that keeps you on track without distraction! Has a pomodoro time tracker to make give you windows of rest for long sessions
+- Small "Break Tasks" that can be slotted into times of rest when you've only got a low amount of energy. Accomplishment no matter the size
+-
 
 **This application is still a WIP! Expect bugs and experimentation!**
 
 ## Tech Stack:
 
 Front end: **React | Next.js**  
-Back end: **Django | PostreSQL**
+Back end: **Django | ~~PostreSQL~~ IndexedDB**
+
+## Figma Design:
+
+https://www.figma.com/design/Vs9u4gPe4I5IjFoV8H3tpN/Task-Tracker?node-id=44-2
 
 ## How to run:
 
