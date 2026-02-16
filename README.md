@@ -13,14 +13,13 @@ The MustDo App prioritizes your tasks and generates a schedule that you can foll
 - Three Views to show tasks for Today, the week, and the month so you can stay on track with everything in your life
 - Focused view that keeps you on track without distraction! Has a pomodoro time tracker to make give you windows of rest for long sessions
 - Small "Break Tasks" that can be slotted into times of rest when you've only got a low amount of energy. Accomplishment no matter the size
--
-
-**This application is still a WIP! Expect bugs and experimentation!**
+- **This application is still a WIP! Expect bugs and experimentation!**
 
 ## Tech Stack:
 
 Front end: **React | Next.js**  
-Back end: **Django | ~~PostreSQL~~ IndexedDB**
+Back end: **Django**
+Storage: **~~PostreSQL~~ IndexedDB**
 
 ## Figma Design:
 

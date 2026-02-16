@@ -1,5 +1,6 @@
 import Button from "@mui/material/Button";
 import TaskCard from "./components/taskCard";
+import { ButtonGroup } from "@mui/material";
 
 type Task = {
   title: string;
@@ -15,11 +16,14 @@ const Page = () => {
 
   return (
     <div className="flex flex-col h-screen justify-evenly">
-      <header className="bg-gray-400">
-        <h1>Must Do: The App that keeps up with your life</h1>
-      </header>
-      <main className="flex flex-row flex-1 bg-red-400">
-        <div className="flex flex-col flex-2 p-6 gap-6">
+      <main className="flex flex-col flex-1 bg-green-200">
+        <header className="flex flex-2 items-center justify-center">
+          <h1 className="font-bold text-center text-white text-5xl">
+            Hello,
+            <br /> Here are the tasks you Must Do!
+          </h1>
+        </header>
+        <div className="flex flex-col flex-8 gap-6">
           <div className="flex justify-start">
             <Button variant="contained">+ New Task</Button>
           </div>
@@ -29,11 +33,19 @@ const Page = () => {
             <TaskCard />
           </div>
         </div>
-        <div className="flex flex-col flex-1 p-6 bg-blue-500">
-          <div className="flex justify-center">
-            <h2>Done!</h2>
-          </div>
-        </div>
+        <footer className="flex flex-1 justify-center bg-blue-50">
+          <ButtonGroup variant="text" className="">
+            <Button className="flex-1 basis-auto" variant="text" size="large">
+              Accomplishments
+            </Button>
+            <Button className="flex-1 basis-auto" variant="text" size="large">
+              I'm Overwhelmed!
+            </Button>
+            <Button className="flex-1 basis-auto" variant="text" size="large">
+              About
+            </Button>
+          </ButtonGroup>
+        </footer>
       </main>
     </div>
   );
