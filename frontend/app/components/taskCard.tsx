@@ -7,7 +7,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
 import { colors } from "../constants/colors";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CardActionArea from "@mui/material/CardActionArea";
 import Typography from "@mui/material/Typography";
 import CardHeader from "@mui/material/CardHeader";
@@ -18,6 +18,8 @@ import Checkbox from "@mui/material/Checkbox";
 import AddIcon from "@mui/icons-material/Add";
 import { useForm, SubmitHandler } from "react-hook-form";
 import TaskDialog from "./dialog";
+import invariant from "tiny-invariant";
+import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 
 interface ChecklistItem {
   text: string;
@@ -44,25 +46,6 @@ const emptyForm: TaskCardContent = {
 };
 
 const TaskCard = () => {
-  /*
-    I want there to be two layouts for the card.  One minimized and one expanded.
-    Minimized will just show the title and a small portion of the description.
-    Expanded will show the full description and any additional details like deadline, checklist, etc.
-    Clicking on the card will toggle between the two states.
-
-    Because there will be shared state between the two layouts, I need to create two views.
-
-    For now, The minimized view is read-only and the expanded view is editable.
-    Later, I can add edit capability to the minimized view as well for quick edits.
-  */
-
-  /*
-    TODO:
-    1.  structure the HTML/CSS for the two views
-    2.  implement the toggle between minimized and expanded views by clicking on the minimize/maximize icon in the top right corner of respective views
-    3.  Put the expanded view in a modal so that the task takes up the entire screen when expanded
-    4.  Add form capabilities w/ react-hook-form in order to input data
-  */
   const {
     register,
     handleSubmit,
@@ -72,6 +55,20 @@ const TaskCard = () => {
   const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
   const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
   const [form, setForm] = useState<TaskCardContent>(emptyForm);
+  const [dragging, setDragging] = useState<boolean>(false);
+
+  const taskCardRef = useRef(null);
+
+  useEffect(() => {
+    const el = taskCardRef.current;
+    invariant(el);
+
+    return draggable({
+      element: el,
+      onDragStart: () => setDragging(true),
+      onDrop: () => setDragging(false),
+    });
+  }, []);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const newTitle = data.title ? data.title : "Task Title";
@@ -208,7 +205,10 @@ const TaskCard = () => {
 
   return (
     <>
-      <Box>
+      <Box
+        ref={taskCardRef}
+        className={`${dragging ? "opacity-50" : "opacity-100"}`}
+      >
         <Card variant="outlined">{minimizedCard}</Card>
       </Box>
       {isExpanded ? (
