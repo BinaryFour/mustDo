@@ -38,6 +38,11 @@ type Inputs = {
   description: string;
 };
 
+type TaskCardProps = {
+  id: number;
+  closeTask: (id: number) => void;
+};
+
 const emptyForm: TaskCardContent = {
   title: "New Title",
   description: "",
@@ -45,13 +50,13 @@ const emptyForm: TaskCardContent = {
   deadline: null,
 };
 
-const TaskCard = () => {
+const TaskCard = ({ id, closeTask }: TaskCardProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(true);
   const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
   const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
   const [form, setForm] = useState<TaskCardContent>(emptyForm);
@@ -129,7 +134,9 @@ const TaskCard = () => {
         </CardContent>
       </CardActionArea>
       <CardActions sx={{ justifyContent: "center" }}>
-        <Button fullWidth>Task Finished!</Button>
+        <Button onClick={() => closeTask(id)} fullWidth>
+          Task Finished!
+        </Button>
       </CardActions>
     </>
   );

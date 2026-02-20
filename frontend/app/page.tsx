@@ -1,19 +1,29 @@
+"use client";
+
 import Button from "@mui/material/Button";
 import TaskCard from "./components/taskCard";
 import { ButtonGroup } from "@mui/material";
+import { useRef, useState } from "react";
 
 type Task = {
-  title: string;
-  description: string;
+  id: number;
 };
 
 const Page = () => {
-  const tasks: Task[] = [
-    { title: "Task 1", description: "Description for Task 1" },
-    { title: "Task 2", description: "Description for Task 2" },
-    { title: "Task 3", description: "Description for Task 3" },
-  ];
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const taskCounter = useRef(0);
 
+  const onClick = () => {
+    setTasks([...tasks, { id: taskCounter.current }]);
+    taskCounter.current += 1;
+  };
+
+  const closeTask = (id: number) => {
+    console.log("close task called with id: ", id);
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  console.log("tasks", tasks);
   return (
     <div className="flex flex-col h-screen justify-evenly">
       <main className="flex flex-col flex-1 bg-green-300">
@@ -25,19 +35,18 @@ const Page = () => {
         </header>
         <div className="flex-6 flex flex-col gap-4 p-4">
           <div className="grid grid-cols-4 gap-4 ">
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
-            <TaskCard />
+            {tasks.map((task) => (
+              <TaskCard key={task.id} id={task.id} closeTask={closeTask} />
+            ))}
           </div>
         </div>
         <footer className="flex flex-2 flex-col sticky bottom-0 gap-4">
           <div className="flex justify-end px-4">
-            <Button variant="contained">+ New Task</Button>
+            <Button variant="contained" onClick={() => onClick()}>
+              + New Task
+            </Button>
           </div>
-          <div className="flex justify-center bg-blue-50">
+          <div className="flex flex-1 justify-center bg-blue-50">
             <ButtonGroup variant="text" className="">
               <Button className="flex-1 basis-auto" variant="text" size="large">
                 Accomplishments
