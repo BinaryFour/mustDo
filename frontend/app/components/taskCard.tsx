@@ -1,25 +1,25 @@
 "use client";
 
+import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
+import EditIcon from "@mui/icons-material/Edit";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import TextField from "@mui/material/TextField";
-import { colors } from "../constants/colors";
-import { useEffect, useRef, useState } from "react";
-import CardActionArea from "@mui/material/CardActionArea";
-import Typography from "@mui/material/Typography";
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
-import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import FormGroup from "@mui/material/FormGroup";
-import Checkbox from "@mui/material/Checkbox";
-import AddIcon from "@mui/icons-material/Add";
-import { useForm, SubmitHandler } from "react-hook-form";
-import TaskDialog from "./dialog";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { useEffect, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import invariant from "tiny-invariant";
-import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import TaskDialog from "./dialog";
+import dayjs from "dayjs";
+import TimeRange from "../lib/clientLocalizationProvider";
 
 interface ChecklistItem {
   text: string;
@@ -62,6 +62,7 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
   const [form, setForm] = useState<TaskCardContent>(emptyForm);
   const [dragging, setDragging] = useState<boolean>(false);
 
+  // const dayjs = require("dayjs");
   const taskCardRef = useRef(null);
 
   useEffect(() => {
@@ -83,34 +84,6 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
 
   const onChange: SubmitHandler<Inputs> = (data) => {
     setForm({ ...form, description: data.description });
-  };
-
-  const CheckboxWithX = () => {
-    return (
-      <div
-        className="list-item-wrapper"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div
-          className="checkbox-label-wrapper"
-          style={{ display: "flex", flexDirection: "row" }}
-        >
-          <Checkbox />
-          <TextField
-            size="small"
-            placeholder="Checklist item"
-            variant="standard"
-          />
-        </div>
-        <IconButton size="small">
-          <AddIcon />
-        </IconButton>
-      </div>
-    );
   };
 
   const minimizedCard = (
@@ -174,16 +147,24 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
               </div>
             }
             action={
-              <IconButton
-                className="border-2 border-solid"
-                onClick={() => setIsExpanded(false)}
-              >
-                <CloseFullscreenIcon />
-              </IconButton>
+              <>
+                <IconButton
+                  className="border-2 border-solid"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  className="border-2 border-solid"
+                  onClick={() => setIsExpanded(false)}
+                >
+                  <CloseFullscreenIcon />
+                </IconButton>
+              </>
             }
-            onDoubleClick={() => setIsTitleEditing(true)}
+            onClick={() => setIsTitleEditing(true)}
           />
-          <CardContent className="flex flex-col gap-6">
+          <CardContent className="flex flex-col gap-4">
             <form
               className="border-2 border-solid"
               onChange={handleSubmit(onChange)}
@@ -193,18 +174,20 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
                 fullWidth
                 placeholder="Description"
                 multiline
-                rows={4}
+                rows={2}
                 variant="standard"
                 {...register("description")}
               />
             </form>
-            <FormGroup className="border-2 border-solid">
-              <CheckboxWithX />
-            </FormGroup>
+            {/* <TimeRange /> */}
+            {/* {/* <TimePicker defaultValue={dayjs("2022-04-17T15:30")} /> */}
+            <TimePicker defaultValue={dayjs("2022-04-17T15:30")} />
           </CardContent>
         </div>
         <CardActions sx={{ justifyContent: "center" }}>
-          <Button fullWidth>Task Finished!</Button>
+          <Button onClick={() => closeTask(id)} fullWidth>
+            Task Finished!
+          </Button>
         </CardActions>
       </div>
     </>

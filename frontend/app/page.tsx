@@ -14,6 +14,12 @@ const Page = () => {
   const taskCounter = useRef(0);
 
   const onClick = () => {
+    if (tasks.length >= 8) {
+      alert(
+        "You have reached the maximum number of tasks!  I will handle infinite tasks in the future!",
+      );
+      return;
+    }
     setTasks([...tasks, { id: taskCounter.current }]);
     taskCounter.current += 1;
   };
@@ -34,13 +40,17 @@ const Page = () => {
           </h1>
         </header>
         <div className="flex-6 flex flex-col gap-4 p-4">
-          <div className="grid grid-cols-4 gap-4 ">
+          <div className="grid grid-cols-4 grid-rows-2 gap-4 ">
             {tasks.map((task) => (
-              <TaskCard key={task.id} id={task.id} closeTask={closeTask} />
+              <TaskCard
+                key={task.id}
+                id={task.id}
+                closeTask={() => closeTask(task.id)}
+              />
             ))}
           </div>
         </div>
-        <footer className="flex flex-2 flex-col sticky bottom-0 gap-4">
+        <footer className="flex flex-1 flex-col sticky bottom-0 gap-4">
           <div className="flex justify-end px-4">
             <Button variant="contained" onClick={() => onClick()}>
               + New Task

@@ -1,5 +1,6 @@
 import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import ClientLocalizationProvider from "./lib/clientLocalizationProvider";
 
 export default function RootLayout({
   children,
@@ -9,9 +10,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-screen">
       <body className="h-screen">
-        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          {children}
-        </AppRouterCacheProvider>
+        <ClientLocalizationProvider>
+          <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+            {children}
+          </AppRouterCacheProvider>
+        </ClientLocalizationProvider>
       </body>
     </html>
   );
