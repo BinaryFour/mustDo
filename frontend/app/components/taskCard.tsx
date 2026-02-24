@@ -19,7 +19,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import invariant from "tiny-invariant";
 import TaskDialog from "./dialog";
 import dayjs from "dayjs";
-import TimeRange from "../lib/clientLocalizationProvider";
 
 interface ChecklistItem {
   text: string;
