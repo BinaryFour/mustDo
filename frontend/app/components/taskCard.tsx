@@ -179,9 +179,12 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
                 {...register("description")}
               />
             </form>
-            {/* <TimeRange /> */}
-            {/* {/* <TimePicker defaultValue={dayjs("2022-04-17T15:30")} /> */}
-            <TimePicker defaultValue={dayjs("2022-04-17T15:30")} />
+            <form>
+              <div className="flex flex-row gap-4">
+                <TimePicker defaultValue={dayjs()} />
+                <TimePicker defaultValue={dayjs().add(1, "h")} />
+              </div>
+            </form>
           </CardContent>
         </div>
         <CardActions sx={{ justifyContent: "center" }}>
