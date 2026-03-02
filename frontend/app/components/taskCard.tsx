@@ -19,6 +19,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import invariant from "tiny-invariant";
 import TaskDialog from "./dialog";
 import dayjs from "dayjs";
+import { titles } from "../constants/titles";
 
 interface ChecklistItem {
   text: string;
@@ -43,7 +44,7 @@ type TaskCardProps = {
 };
 
 const emptyForm: TaskCardContent = {
-  title: "New Title",
+  title: titles.new,
   description: "",
   checklist: [],
   deadline: null,
@@ -55,7 +56,7 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-  const [isExpanded, setIsExpanded] = useState<boolean>(true);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isTitleEditing, setIsTitleEditing] = useState<boolean>(false);
   const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
   const [form, setForm] = useState<TaskCardContent>(emptyForm);
@@ -76,7 +77,7 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
   }, []);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    const newTitle = data.title ? data.title : "Task Title";
+    const newTitle = data.title ? data.title : titles.new;
     setForm({ ...form, title: newTitle });
     setIsTitleEditing(false);
   };
@@ -87,7 +88,10 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
 
   const minimizedCard = (
     <>
-      <CardActionArea onClick={() => setIsExpanded(true)}>
+      <CardActionArea
+        name="expand-task-card"
+        onClick={() => setIsExpanded(true)}
+      >
         <CardContent className="flex flex-col gap-1">
           <Typography variant="h4" gutterBottom>
             {form.title}
@@ -124,7 +128,7 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
               },
             }}
             title={
-              <div className="text-center min-h-10 border-2 border-solid">
+              <div className="text-center min-h-10 ">
                 {isTitleEditing ? (
                   <form
                     onSubmit={handleSubmit(onSubmit)}
@@ -147,14 +151,11 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
             }
             action={
               <>
-                <IconButton
-                  className="border-2 border-solid"
-                  onClick={() => setIsExpanded(false)}
-                >
+                {/* <IconButton onClick={() => setIsExpanded(false)}>
                   <EditIcon />
-                </IconButton>
+                </IconButton> */}
                 <IconButton
-                  className="border-2 border-solid"
+                  aria-label="close"
                   onClick={() => setIsExpanded(false)}
                 >
                   <CloseFullscreenIcon />
@@ -164,10 +165,7 @@ const TaskCard = ({ id, closeTask }: TaskCardProps) => {
             onClick={() => setIsTitleEditing(true)}
           />
           <CardContent className="flex flex-col gap-4">
-            <form
-              className="border-2 border-solid"
-              onChange={handleSubmit(onChange)}
-            >
+            <form onChange={handleSubmit(onChange)}>
               <TextField
                 id="standard-multiline-static"
                 fullWidth
